@@ -136,7 +136,7 @@ const characterData = {
     "İrem": { desc: "", normalImg: "images/İrem.png", slappedImg: "images/İrem-slapped.png", sound: "sounds/irem.mp3", creator: "Sistem" },
     "Esma": { desc: "", normalImg: "images/Esma.png", slappedImg: "images/Esma-slapped.png", sound: "sounds/esma2.mp3", creator: "Sistem" },
     "Eko": { desc: "", normalImg: "images/Eko.png", slappedImg: "images/Ekin-slapped.png", sound: "sounds/ekin.mp3", creator: "Sistem" },
-    "Cemal": { desc: "", normalImg: "images/Cemal.png", slappedImg: "images/Cemal-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Cemal": { desc: "", normalImg: "images/Cemal.png", slappedImg: "images/Cemal-slapped.png", sound: "sounds/cemal1.mp3", creator: "Sistem" },
     "Furkan": { desc: "", normalImg: "images/Furkan.png", slappedImg: "images/Furkan-slapped.png", sound: "sounds/furkan.mp3", creator: "Sistem" },
     "Tuğulu": { desc: "", normalImg: "images/Tuğulu.png", slappedImg: "images/Tuğulu-slapped.png", sound: "sounds/tuğulu2.mp3", creator: "Sistem" },
     "İso": { desc: "", normalImg: "images/İso.png", slappedImg: "images/İso-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
@@ -148,6 +148,7 @@ const characterData = {
     "Zümra": { desc: "", normalImg: "images/Zümra.png", slappedImg: "images/Zümra-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "Yalçın": { desc: "", normalImg: "images/Yalçın.png", slappedImg: "images/Yalçın-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "Çiçek": { desc: "", normalImg: "images/Çiçek.png", slappedImg: "images/Çiçek-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Hatice": { desc: "", normalImg: "images/Hatice.png", slappedImg: "images/Hatice-slapped.png", sound: "sounds/hatice1.mp3", creator: "Sistem" },
 
     "Oscar Piastri": { desc: "", normalImg: "images/Oscarpiastri.png", slappedImg: "images/Oscarpiastri-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "George Russell": { desc: "", normalImg: "images/Georgerussell.png", slappedImg: "images/Georgerussell-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
