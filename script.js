@@ -131,32 +131,32 @@ function playSlapSound(charName) {
 // --- KARAKTER TANIMLARI ---
 const characterData = {
     "Büşra": { desc: "", normalImg: "images/Büşra.png", slappedImg: "images/Büşra.png", sound: "sounds/büşra2.mp3" , creator: "Sistem" },
-    "Beyza": { desc: "", normalImg: "images/Beyza.png", slappedImg: "images/Beyza-slapped.png", sound: "", creator: "Sistem" },
-    "Şebo": { desc: "", normalImg: "images/Şebo.png", slappedImg: "images/Şebo-slapped.png", sound: "", creator: "Sistem" },
+    "Beyza": { desc: "", normalImg: "images/Beyza.png", slappedImg: "images/Beyza-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Şebo": { desc: "", normalImg: "images/Şebo.png", slappedImg: "images/Şebo-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "İrem": { desc: "", normalImg: "images/İrem.png", slappedImg: "images/İrem-slapped.png", sound: "sounds/irem.mp3", creator: "Sistem" },
     "Esma": { desc: "", normalImg: "images/Esma.png", slappedImg: "images/Esma-slapped.png", sound: "sounds/esma2.mp3", creator: "Sistem" },
     "Eko": { desc: "", normalImg: "images/Eko.png", slappedImg: "images/Ekin-slapped.png", sound: "sounds/ekin.mp3", creator: "Sistem" },
-    "Cemal": { desc: "", normalImg: "images/Cemal.png", slappedImg: "images/Cemal-slapped.png", sound: "", creator: "Sistem" },
+    "Cemal": { desc: "", normalImg: "images/Cemal.png", slappedImg: "images/Cemal-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "Furkan": { desc: "", normalImg: "images/Furkan.png", slappedImg: "images/Furkan-slapped.png", sound: "sounds/furkan.mp3", creator: "Sistem" },
     "Tuğulu": { desc: "", normalImg: "images/Tuğulu.png", slappedImg: "images/Tuğulu-slapped.png", sound: "sounds/tuğulu2.mp3", creator: "Sistem" },
-    "İso": { desc: "", normalImg: "images/İso.png", slappedImg: "images/İso-slapped.png", sound: "", creator: "Sistem" },
+    "İso": { desc: "", normalImg: "images/İso.png", slappedImg: "images/İso-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "Kaan": { desc: "", normalImg: "images/Kaan.png", slappedImg: "images/Kaan-slapped.png", sound: "sounds/kaan.mp3", creator: "Sistem" },
-    "Berat": { desc: "", normalImg: "images/Berat.png", slappedImg: "images/Berat-slapped.png", sound: "", creator: "Sistem" },
-    "Emir": { desc: "", normalImg: "images/Emir.png", slappedImg: "images/Emir-slapped.png", sound: "", creator: "Sistem" },
-    "Zelal": { desc: "", normalImg: "images/Zelal.png", slappedImg: "images/Zelal-slapped.png", sound: "", creator: "Sistem" },
+    "Berat": { desc: "", normalImg: "images/Berat.png", slappedImg: "images/Berat-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Emir": { desc: "", normalImg: "images/Emir.png", slappedImg: "images/Emir-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Zelal": { desc: "", normalImg: "images/Zelal.png", slappedImg: "images/Zelal-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
     "Aysima": { desc: "", normalImg: "images/Aysima.png", slappedImg: "images/Aysima-slapped.png", sound: "sounds/aysima.mp3", creator: "Sistem" },
-    "Zümra": { desc: "", normalImg: "images/Zümra.png", slappedImg: "images/Zümra-slapped.png", sound: "", creator: "Sistem" },
-    "Yalçın": { desc: "", normalImg: "images/Yalçın.png", slappedImg: "images/Yalçın-slapped.png", sound: "", creator: "Sistem" },
-    "Çiçek": { desc: "", normalImg: "images/Çiçek.png", slappedImg: "images/Çiçek-slapped.png", sound: "", creator: "Sistem" },
+    "Zümra": { desc: "", normalImg: "images/Zümra.png", slappedImg: "images/Zümra-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Yalçın": { desc: "", normalImg: "images/Yalçın.png", slappedImg: "images/Yalçın-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Çiçek": { desc: "", normalImg: "images/Çiçek.png", slappedImg: "images/Çiçek-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
 
-    "Oscar Piastri": { desc: "", normalImg: "images/Oscarpiastri.png", slappedImg: "images/Oscarpiastri-slapped.png", sound: "", creator: "Sistem" },
-    "George Russell": { desc: "", normalImg: "images/Georgerussell.png", slappedImg: "images/Georgerussell-slapped.png", sound: "", creator: "Sistem" },
-    "Max Verstappen": { desc: "", normalImg: "images/Maxverstappen.png", slappedImg: "images/Maxverstappen-slapped.png", sound: "", creator: "Sistem" },
-    "Charles Leclerc": { desc: "", normalImg: "images/Charlesleclerc.png", slappedImg: "images/Charlesleclerc-slapped.png", sound: "", creator: "Sistem" },
-    "Lando Norris": { desc: "", normalImg: "images/Landonorris.png", slappedImg: "images/Landonorris-slapped.png", sound: "", creator: "Sistem" },
+    "Oscar Piastri": { desc: "", normalImg: "images/Oscarpiastri.png", slappedImg: "images/Oscarpiastri-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "George Russell": { desc: "", normalImg: "images/Georgerussell.png", slappedImg: "images/Georgerussell-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Max Verstappen": { desc: "", normalImg: "images/Maxverstappen.png", slappedImg: "images/Maxverstappen-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Charles Leclerc": { desc: "", normalImg: "images/Charlesleclerc.png", slappedImg: "images/Charlesleclerc-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Lando Norris": { desc: "", normalImg: "images/Landonorris.png", slappedImg: "images/Landonorris-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
 
-    "Tarkan": { desc: "", normalImg: "images/Tarkan.png", slappedImg: "images/Tarkan-slapped.png", sound: "", creator: "Sistem" },
-    "Edis": { desc: "", normalImg: "images/Edis.png", slappedImg: "images/Edis-slapped.png", sound: "", creator: "Sistem" }
+    "Tarkan": { desc: "", normalImg: "images/Tarkan.png", slappedImg: "images/Tarkan-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" },
+    "Edis": { desc: "", normalImg: "images/Edis.png", slappedImg: "images/Edis-slapped.png", sound: "sounds/klasik.mp3", creator: "Sistem" }
 };
 
 let activeCharacter = localStorage.getItem('activeCharacter') || null;
