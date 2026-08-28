@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tokat Atma Oyunu</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+ <!-- Firebase App (Ana Çekirdek - Şart) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+
+<!-- Firebase Realtime Database Kütüphanesi (Hatanın çözümü için şart) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖐️</text></svg>">
+</head>
+<body>
+
+    <!-- Üst Bilgi ve Sayaçlar -->
+    <header class="top-header">
+        <div class="stats-top-left" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="stat-box">
+                <span class="stat-label">GENEL TOKAT</span>
+                <span id="global-slap-count" class="stat-value">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">SENİN TOKATLARIN</span>
+                <span id="user-slap-count" class="stat-value">0</span>
+            </div>
+            <!-- Giriş Yap / Kullanıcı Butonu (Senin Tokatların kutusunun altına eklendi) -->
+            <button id="auth-nav-btn" class="primary-btn" style="font-size: 11px; padding: 8px; width: 100%;">Giriş Yap</button>
+        </div>
+
+        <!-- Sıralama ve Ayarlar Butonları (Sağ üstte yan yana) -->
+        <div class="top-right-menu" style="display: flex; gap: 8px; align-items: center; z-index: 50;">
+            <button id="leaderboard-btn" class="icon-btn">🏆</button>
+            <button id="settings-btn" class="icon-btn">⚙️</button>
+        </div>
+
+        <!-- Ayarlar Açılır Menüsü -->
+        <div id="dropdown-menu" class="dropdown hidden">
+            <button id="sound-toggle-btn">🔊 Ses: Açık</button>
+            <button id="about-btn">ℹ️ Hakkında</button>
+        </div>
+    </header>
+
+    <!-- Ana Oyun Sahnesi -->
+    <main class="main-stage">
+        <div class="character-container" id="zoom-container">
+            <div id="active-character-name" class="character-name-tag">deneme</div>
+            
+            <!-- Tokat Atılacak Karakter Alanı -->
+            <div class="character-placeholder" id="character-target">
+                <!-- Mavi Darbe Efekti (Merkezde) -->
+                <div id="blue-hit-glow" class="blue-hit-glow"></div>
+
+                <!-- Tokat/Silah Emojisi Efekti -->
+                <div id="slap-effect" class="slap-effect hidden">🖐️</div>
+
+                <!-- Karakter Resmi -->
+              <img id="character-img" src="" alt="Karakter" style="display: none;">
+                
+                <span id="character-text" style="font-size: 10px; margin-top: 5px; min-height: 12px;"></span>
+
+                <!-- Düello Bitiş Ekranı -->
+                <div id="duel-result-display" class="duel-result-overlay hidden">
+                    <h3 style="font-size: 13px;">Süre Bitti! ⏰</h3>
+                    <p style="font-size: 10px;">Skorun:</p>
+                    <span id="final-duel-score-text" style="font-size: 16px; font-weight: bold; color: #E6C547;">0 Tokat</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Alt Navigasyon Sekmeleri -->
+    <nav class="bottom-nav">
+        <button class="nav-tab active" data-section="slap">🖐️ Tokatla</button>
+        <button class="nav-tab" data-section="duel">⏱️ Düello</button>
+        <button class="nav-tab" data-section="appearance">🎨 Karakter</button>
+        <button class="nav-tab" data-section="weapons">⚔️ Silah</button>
+        
+    </nav>
+
+    <!-- Düello Geri Sayım Modalı -->
+    <div id="duel-countdown-modal" class="modal-overlay hidden" style="display:flex; justify-content:center; align-items:center;">
+        <div style="background:white; padding:30px; border-radius:20px; border:3px solid #000; box-shadow:5px 5px 0px #000; text-align:center;">
+            <h2 style="font-size:14px; margin-bottom:10px;">Düello Başlıyor!</h2>
+            <div id="countdown-number" style="font-size:40px; font-family:'Bungee', cursive; color:#E6C547;-webkit-text-stroke:2px black;">3</div>
+        </div>
+    </div>
+
+    <!-- Düello Süre Sayacı Çubuğu -->
+    <div id="duel-timer-box" class="hidden" style="position:fixed; top:80px; left:50%; transform:translateX(-50%); background:white; padding:5px 15px; border-radius:10px; border:2px solid #000; box-shadow:2px 2px 0px #000; z-index:40; display:flex; gap:10px; align-items:center;">
+        <span style="font-size:10px; font-weight:bold;">Süre: <span id="duel-time-left" style="color:red;">10s</span></span>
+        <button id="cancel-duel-btn" style="background:#ff6b6b; border:2px solid #000; border-radius:5px; padding:2px 6px; font-size:9px; cursor:pointer; font-weight:bold;">İptal</button>
+    </div>
+
+    <!-- Karakter Seç / Özelleştir Modalı -->
+    <div id="appearance-modal" class="modal-overlay hidden">
+        <div class="drawer" style="height: 85vh;">
+            <div class="drawer-header">
+                <h3>Karakter Seç & Özelleştir</h3>
+                <button id="close-appearance" class="close-btn">&times;</button>
+            </div>
+            <div class="drawer-content">
+                <!-- Kategori Butonları (İnsan, F1, Ünlüler, Özel) -->
+                <div style="display: flex; gap: 4px; margin-bottom: 10px;">
+                    <button class="primary-btn cat-btn" data-cat="human" style="flex:1; font-size:8px; padding:6px 2px;">👤 İnsan</button>
+                    <button class="primary-btn cat-btn" data-cat="f1" style="flex:1; font-size:8px; padding:6px 2px;">🏎️ F1</button>
+                    <button class="primary-btn cat-btn" data-cat="celebrity" style="flex:1; font-size:8px; padding:6px 2px;">🎤 Ünlüler</button>
+                    <button class="primary-btn cat-btn" data-cat="custom" style="flex:1; font-size:8px; padding:6px 2px;"> Özel</button>
+                </div>
+
+                <!-- İnsan Kategorisi -->
+                <div id="sub-chars-human" class="sub-char-container" style="display:flex; flex-direction:column; gap:5px; margin-bottom:15px;">
+                    <button class="primary-btn char-select-btn" data-char="Büşra" style="background:#fff; font-size:9px;">Büşra</button>
+                    <button class="primary-btn char-select-btn" data-char="Beyza" style="background:#fff; font-size:9px;">Beyza</button>
+                                        <button class="primary-btn char-select-btn" data-char="Şebo" style="background:#fff; font-size:9px;">Şebo</button>
+                    <button class="primary-btn char-select-btn" data-char="İrem" style="background:#fff; font-size:9px;">İrem</button>
+                    <button class="primary-btn char-select-btn" data-char="Esma" style="background:#fff; font-size:9px;">Esma</button>
+                    <button class="primary-btn char-select-btn" data-char="Eko" style="background:#fff; font-size:9px;">Eko</button>
+                    <button class="primary-btn char-select-btn" data-char="Cemal" style="background:#fff; font-size:9px;">Cemal</button>
+                    <button class="primary-btn char-select-btn" data-char="Furkan" style="background:#fff; font-size:9px;">Furkan</button>
+                    <button class="primary-btn char-select-btn" data-char="Tuğulu" style="background:#fff; font-size:9px;">Tuğulu</button>
+                    <button class="primary-btn char-select-btn" data-char="İso" style="background:#fff; font-size:9px;">İso</button>
+                    <button class="primary-btn char-select-btn" data-char="Kaan" style="background:#fff; font-size:9px;">Kaan</button>
+                    <button class="primary-btn char-select-btn" data-char="Berat" style="background:#fff; font-size:9px;">Berat</button>
+                    <button class="primary-btn char-select-btn" data-char="Emir" style="background:#fff; font-size:9px;">Emir</button>
+                    <button class="primary-btn char-select-btn" data-char="Zelal" style="background:#fff; font-size:9px;">Zelal</button>
+                    <button class="primary-btn char-select-btn" data-char="Aysima" style="background:#fff; font-size:9px;">Aysima</button>
+                    <button class="primary-btn char-select-btn" data-char="Zümra" style="background:#fff; font-size:9px;">Zümra</button>
+                    <button class="primary-btn char-select-btn" data-char="Yalçın" style="background:#fff; font-size:9px;">Yalçın</button>
+                    <button class="primary-btn char-select-btn" data-char="Çiçek" style="background:#fff; font-size:9px;">Çiçek</button>
+
+                </div>
+
+                <!-- F1 Kategorisi -->
+                <div id="sub-chars-f1" class="sub-char-container" style="display:flex; flex-direction:column; gap:5px; margin-bottom:15px;">
+                    <button class="primary-btn char-select-btn" data-char="Oscar Piastri" style="background:#fff; font-size:9px;">Oscar Piastri</button>
+                    <button class="primary-btn char-select-btn" data-char="George Russell" style="background:#fff; font-size:9px;">George Russell </button>
+                                        <button class="primary-btn char-select-btn" data-char="Max Verstappen" style="background:#fff; font-size:9px;">Max Verstappen</button>
+                    <button class="primary-btn char-select-btn" data-char="Charles Leclerc" style="background:#fff; font-size:9px;">Charles Leclerc</button>
+                    <button class="primary-btn char-select-btn" data-char="Lando Norris" style="background:#fff; font-size:9px;">Lando Norris</button>
+
+                </div>
+
+                <!-- Ünlüler Kategorisi (Yeni Eklendi) -->
+                <div id="sub-chars-celebrity" class="sub-char-container" style="display:flex; flex-direction:column; gap:5px; margin-bottom:15px;">
+                    <button class="primary-btn char-select-btn" data-char="Tarkan" style="background:#fff; font-size:9px;">Tarkan</button>
+                    <button class="primary-btn char-select-btn" data-char="Edis" style="background:#fff; font-size:9px;">Edis</button>
+                </div>
+
+                <!-- Özel Sekmesi (Oluşturma Alanı ve Topluluk Özel Karakterleri Burada) -->
+                <div id="sub-chars-custom" class="sub-char-container" style="display:flex; flex-direction:column; gap:10px; margin-bottom:15px;">
+                    <div style="background: #f9f9f9; padding: 10px; border-radius: 10px; border: 2px solid #000;">
+                        <h4 style="font-size: 11px; margin-bottom: 5px;"> Özel Karakter Oluştur (Sadece Giriş Yapanlar)</h4>
+                        <input type="text" id="custom-char-name" placeholder="Karakter Adı" style="width:100%; padding:6px; margin-bottom:5px; border:2px solid #000; border-radius:6px; font-size:10px;">
+                        <input type="text" id="custom-char-desc" placeholder="Açıklama / Slogan (İsteğe bağlı)" style="width:100%; padding:6px; margin-bottom:5px; border:2px solid #000; border-radius:6px; font-size:10px;">
+                        <input type="text" id="custom-normal-img" placeholder="Normal Resim URL Linki" style="width:100%; padding:6px; margin-bottom:5px; border:2px solid #000; border-radius:6px; font-size:10px;">
+                        <input type="text" id="custom-slapped-img" placeholder="Tokat Yemiş Resim URL Linki (İsteğe bağlı)" style="width:100%; padding:6px; margin-bottom:5px; border:2px solid #000; border-radius:6px; font-size:10px;">
+                        <input type="text" id="custom-sound" placeholder="Özel Ses Dosyası Yolu (örn: sounds/unlu-ses.mp3)" style="width:100%; padding:6px; margin-bottom:8px; border:2px solid #000; border-radius:6px; font-size:10px;">
+                        <button id="save-custom-char-btn" class="primary-btn" style="width:100%; font-size:10px; padding:8px;">Karakteri Kaydet ve Paylaş</button>
+                    </div>
+                    
+                    <h4 style="font-size: 11px; margin-top: 5px; margin-bottom: 5px;">Topluluk Özel Karakterleri</h4>
+                    <div id="custom-character-list" style="display: flex; flex-direction: column; gap: 5px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Silah Seçim Modalı -->
+    <div id="weapon-modal" class="modal-overlay hidden">
+        <div class="drawer" style="height: 50vh;">
+            <div class="drawer-header">
+                <h3>Silah / Vurma Aracı Seç</h3>
+                <button id="close-weapon" class="close-btn">&times;</button>
+            </div>
+            <div class="drawer-content" style="display: flex; flex-direction: column; gap: 10px;">
+                <button class="primary-btn weapon-select-btn" data-weapon="🖐️" data-name="Tokat (El)" style="background:#fff; text-align:left; padding:12px;">🖐️ Tokat (Klasik El)</button>
+                <button class="primary-btn weapon-select-btn" data-weapon="🏏" data-name="Sopa" style="background:#fff; text-align:left; padding:12px;">🏏 Sinek Kaydı Sopa</button>
+                <button class="primary-btn weapon-select-btn" data-weapon="🩴" data-name="Terlik" style="background:#fff; text-align:left; padding:12px;">🩴 Anne Terliği</button>
+                 <button class="primary-btn weapon-select-btn" data-weapon="💐" data-name="Terlik" style="background:#fff; text-align:left; padding:12px;">💐 Çiçek buketi</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sıralama Çekmecesi (Drawer) -->
+    <div id="modal-overlay" class="modal-overlay hidden"></div>
+    <div id="leaderboard-drawer" class="drawer hidden">
+        <div class="drawer-header">
+            <h3>Skor Tablosu</h3>
+            <button id="close-drawer" class="close-btn">&times;</button>
+        </div>
+        <div class="drawer-tabs">
+            <button class="drawer-tab-btn active-tab" data-target="alltime">Genel Sıralama</button>
+            <button class="drawer-tab-btn" data-target="character-ranking">Karakter Popülerliği</button>
+            <button class="drawer-tab-btn" data-target="duel-ranking">Düello Rekorları</button>
+        </div>
+        <div class="drawer-content">
+            <div id="list-alltime" class="ranking-list"></div>
+            <div id="list-character-ranking" class="ranking-list hidden"></div>
+            <div id="list-duel-ranking" class="ranking-list hidden"></div>
+        </div>
+    </div>
+
+    <!-- Giriş / Kayıt Ol Modalı -->
+    <div id="auth-modal" class="auth-modal hidden">
+        <div class="auth-box">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3 id="auth-title">Giriş Yap</h3>
+                <button id="close-auth" class="close-btn" style="font-size:16px;">&times;</button>
+            </div>
+            <form id="auth-form" style="display:flex; flex-direction:column; gap:8px;">
+                <input type="text" id="username-input" placeholder="Kullanıcı Adı" required>
+                <input type="password" id="password-input" placeholder="Şifre" required>
+                <button type="submit" id="auth-submit-btn" class="primary-btn">Giriş Yap</button>
+            </form>
+            <div class="auth-toggle-container">
+                <span id="auth-toggle-text">Hesabın yok mu?</span>
+                <button id="switch-mode-btn" class="text-btn">Kayıt Ol</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profil / Hesap Modalı -->
+    <div id="account-modal" class="modal-overlay hidden">
+        <div class="auth-box" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);">
+            <h3 id="acc-username-title">Hesap</h3>
+            <p style="font-size:11px;">Toplam Tokatların: <b id="acc-total-slaps" style="color:#E6C547;">0</b></p>
+            <div style="font-size:10px; max-height:120px; overflow-y:auto; border:1px solid #ccc; padding:5px; border-radius:5px;" id="acc-character-stats"></div>
+            <button id="logout-btn" class="primary-btn" style="background-color:#ff6b6b;">Oturumu Kapat</button>
+            <button id="close-account-modal" class="text-btn" style="text-align:center; width:100%;">Kapat</button>
+        </div>
+    </div>
+
+    <!-- Hakkında Modalı -->
+    <div id="about-modal" class="modal-overlay hidden">
+        <div class="auth-box" style="position:fixed; top:50%; left:50%; transform:translate(-50%, -50%);">
+            <h3>Hakkında</h3>
+            <p style="font-size:11px; line-height:1.4;">Bu eğlenceli tokat atma oyununda karakterleri tokatlayarak skorları artırabilir.
+                <br>
+                Yapımcı :Büşra Gül Obut</p>
+            <button id="close-about-modal" class="primary-btn">Tamam</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

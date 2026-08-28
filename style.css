@@ -1,0 +1,502 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #F7EFE5;
+    color: #222222;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+    /* Telefonda yazıların mavi/link görünmesini ve çift tıklama zoomunu engeller */
+    -webkit-text-size-adjust: 100%;
+    -webkit-touch-callout: none;
+    touch-action: pan-x pan-y; /* İki parmakla zoom yapmaya izin verir */
+}
+
+/* Tüm metinlerde tıklama mavi vurgusunu kaldırır */
+span, h1, h2, h3, p {
+    -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, .stat-value, .nav-tab, .circle-btn, .primary-btn, .drawer-tab-btn {
+    font-family: 'Bungee', cursive !important;
+    letter-spacing: 1px;
+}
+
+.top-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 15px;
+    position: relative;
+    z-index: 10;
+}
+
+.stats-top-left {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stat-box {
+    background-color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    border: 2px solid #000000;
+    box-shadow: 3px 3px 0px #000000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.stat-label {
+    font-size: 9px;
+    color: #444;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 13px;
+    font-weight: 700;
+    color: #E6C547;
+    -webkit-text-stroke: 1px black;
+}
+.menu-top-right {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 50;
+}
+
+.circle-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    border-radius: 50% !important;
+    background-color: white !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 3px 3px 0px #000000 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    flex-shrink: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+}
+
+/* Butonun içindeki ikon veya yazının taşıp şekli bozmasını engeller */
+.circle-btn > * {
+    font-size: 16px !important;
+    line-height: 1 !important;
+    pointer-events: none;
+}
+
+.icon-btn {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    max-width: 42px !important;
+    border-radius: 50% !important;
+    background-color: white !important;
+    border: 2px solid #000000 !important;
+    box-shadow: 3px 3px 0px #000000 !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 16px !important;
+    padding: 0 !important;
+    transition: transform 0.1s ease, box-shadow 0.1s ease !important;
+}
+
+.icon-btn:active {
+    transform: translate(2px, 2px) !important;
+    box-shadow: 1px 1px 0px #000000 !important;
+}
+
+.circle-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000000;
+}
+
+.dropdown {
+    position: absolute;
+    top: 60px;
+    right: 15px;
+    background-color: white;
+    border-radius: 12px;
+    border: 2px solid #000000;
+    box-shadow: 4px 4px 0px #000000;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    width: 150px;
+    z-index: 60;
+}
+
+.dropdown button {
+    background: none;
+    border: none;
+    padding: 10px;
+    text-align: left;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.dropdown button:hover {
+    background-color: #f0f0f0;
+}
+
+.main-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.character-container {
+    border: 2px dashed #b09b8d;
+    padding: 25px 35px;
+    border-radius: 20px;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.character-name-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    padding: 3px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    border-radius: 6px;
+    border: 2px solid #000000;
+    box-shadow: 2px 2px 0px #000000;
+    white-space: nowrap;
+}
+
+.character-placeholder {
+    width: 280px;
+    height: 200px;
+    background-color: #dfd0c3;
+    border-radius: 12px;
+    border: 2px solid #000000;
+    box-shadow: 4px 4px 0px #000000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    font-weight: 600;
+    text-align: center;
+    padding: 5px;
+    overflow: hidden;
+}
+
+/* Sarsıntı Efekti */
+.character-placeholder.shake {
+    animation: shakeAnim 0.12s ease-in-out;
+}
+
+@keyframes shakeAnim {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    25% { transform: translate(-5px, 2px) rotate(-4deg); }
+    50% { transform: translate(5px, -2px) rotate(4deg); }
+    75% { transform: translate(-3px, 1px) rotate(-2deg); }
+    100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+.duel-result-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    z-index: 5;
+}
+
+/* Tokat Elinin Konumu */
+.slap-effect {
+    position: absolute;
+    font-size: 48px;
+    pointer-events: none;
+    z-index: 25;
+    top: 45%;
+    transform: translateY(-50%);
+}
+
+.slap-effect.from-left {
+    left: 20%;
+    animation: slapFromLeftAnim 0.3s ease-out forwards;
+}
+
+.slap-effect.from-right {
+    right: 20%;
+    animation: slapFromRightAnim 0.3s ease-out forwards;
+}
+
+@keyframes slapFromLeftAnim {
+    0% { transform: scale(1.8) translate(-40px, -20px) rotate(-45deg); opacity: 0; }
+    30% { transform: scale(1.2) translate(0px, 0px) rotate(-10deg); opacity: 1; }
+    100% { transform: scale(0.9) translate(15px, 8px) rotate(5deg); opacity: 0; }
+}
+
+@keyframes slapFromRightAnim {
+    0% { transform: scale(1.8) translate(40px, -20px) scaleX(-1) rotate(-45deg); opacity: 0; }
+    30% { transform: scale(1.2) translate(0px, 0px) scaleX(-1) rotate(-10deg); opacity: 1; }
+    100% { transform: scale(0.9) translate(-15px, 8px) scaleX(-1) rotate(5deg); opacity: 0; }
+}
+
+/* Karakter Resminin Üzerinde Beliren Mavi Darbe Efekti */
+.blue-hit-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.5);
+    width: 90px;
+    height: 90px;
+    background: radial-gradient(circle, rgba(0,180,216,0.9) 0%, rgba(0,119,182,0.4) 60%, transparent 100%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+}
+
+.blue-hit-glow.active {
+    animation: blueHitAnim 0.25s ease-out forwards;
+}
+
+@keyframes blueHitAnim {
+    0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 0.8; }
+    100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
+}
+
+.bottom-nav {
+    width: 100%;
+    height: 65px;
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 0 10px;
+    z-index: 10;
+}
+
+.nav-tab {
+    background-color: white;
+    border: 2px solid #000000;
+    box-shadow: 3px 3px 0px #000000;
+    padding: 10px 14px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 9px;
+    white-space: nowrap;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.nav-tab:active, .nav-tab.active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000000;
+    background-color: #E6C547;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.drawer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 450px;
+    height: 70vh;
+    background-color: white;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border: 2px solid #000;
+    border-bottom: none;
+    box-shadow: 0px -4px 0px #000;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.drawer-tabs {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.drawer-tab-btn {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 8px;
+    background: #f0f0f0;
+    border: 2px solid #000;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.drawer-tab-btn.active-tab {
+    background-color: #E6C547;
+    box-shadow: 2px 2px 0px #000;
+}
+
+.drawer-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.ranking-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 110;
+}
+
+.auth-box {
+    background-color: white;
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0px #000;
+    border-radius: 16px;
+    padding: 20px;
+    width: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.auth-box h3 {
+    font-size: 14px;
+    text-align: center;
+}
+
+.auth-box input {
+    padding: 8px;
+    border: 2px solid #000;
+    border-radius: 8px;
+    font-size: 11px;
+    outline: none;
+}
+
+.primary-btn {
+    background-color: #E6C547;
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0px #000;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: bold;
+    text-align: center;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.primary-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0px #000;
+}
+
+.text-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    color: #555;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.auth-toggle-container {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    font-size: 10px;
+    align-items: center;
+}
+/* Telefonda çift tıklama ve zoom hareketlerini tamamen devre dışı bırakır */
+body {
+    touch-action: manipulation;
+}
+
+/* Karakter alanında iki parmakla yakınlaştırmaya (pinch-zoom) izin verir */
+#zoom-container {
+    touch-action: pinch-zoom;
+}
+
+#character-img {
+    max-width: 150px;  /* Resmin genişliği en fazla bu kadar olsun */
+    max-height: 200px; /* Resmin yüksekliği en fazla bu kadar olsun */
+    object-fit: contain; /* Resim oranını bozmadan kutuya sığdırsın */
+}
